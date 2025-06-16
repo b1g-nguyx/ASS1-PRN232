@@ -62,7 +62,13 @@ namespace HaHuuTrung_SE1821_A01_DataAccess.DAO
 
         public async Task DeleteAsync(NewsArticle article)
         {
+            var articles = await _context.NewsArticles
+      .Include(a => a.Tags) // nếu bạn có navigation property
+      .FirstOrDefaultAsync(a => a.NewsArticleId == article.NewsArticleId);
+            article.Tags.Clear();
+
             _context.NewsArticles.Remove(article);
+
             await _context.SaveChangesAsync();
         }
 
