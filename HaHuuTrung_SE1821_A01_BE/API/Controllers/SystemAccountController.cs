@@ -62,7 +62,7 @@ namespace API.Controllers
         {
            
             var existing = await _systemAccountRepository.EmailExistsAsync(dto.AccountEmail);
-            if (existing == false)
+            if (existing == true)
             {
                 return BadRequest("Email already exists.");
             }
