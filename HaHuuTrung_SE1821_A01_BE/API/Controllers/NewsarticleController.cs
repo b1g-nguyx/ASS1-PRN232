@@ -60,9 +60,31 @@ namespace API.Controllers
         [HttpGet("report")]
         public async Task<IActionResult> GetReport([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
-            var report = await _newsArticleRepository.GetArticlesByDateRange(startDate, endDate);
+            var articles = await _newsArticleRepository.GetArticlesByDateRange(startDate, endDate);
+
+            var report = articles.Select(n => new NewsArticleDTO
+            {
+                NewsArticleId = n.NewsArticleId,
+                NewsTitle = n.NewsTitle,
+                Headline = n.Headline,
+                NewsContent = n.NewsContent,
+                NewsSource = n.NewsSource,
+                CreatedDate = n.CreatedDate,
+                ModifiedDate = n.ModifiedDate,
+                NewsStatus = n.NewsStatus,
+
+                CategoryId = n.CategoryId,
+                CategoryName = n.Category?.CategoryName,
+
+                CreatedById = n.CreatedById,
+
+                UpdatedById = n.UpdatedById,
+
+            }).ToList();
+
             return Ok(report);
         }
+
 
 
         [HttpGet]

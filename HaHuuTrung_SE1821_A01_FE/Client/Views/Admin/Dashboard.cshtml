@@ -21,18 +21,7 @@
     <div class="col-12 col-md-6">
         <div class="card shadow rounded-3 h-100">
             <div class="card-body">
-                <h5 class="card-title fw-semibold">Generate Report</h5>
-                <form asp-action="GenerateReport" method="post">
-                    <div class="mb-3">
-                        <label for="StartDate" class="form-label">Start Date</label>
-                        <input type="date" name="StartDate" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="EndDate" class="form-label">End Date</label>
-                        <input type="date" name="EndDate" class="form-control" required />
-                    </div>
-                    <button type="submit" class="btn btn-success">Generate</button>
-                </form>
+                <a href="/GenerateReport/GenerateReport" class="btn btn-primary mt-2">Generate Report</a>
             </div>
         </div>
     </div>
