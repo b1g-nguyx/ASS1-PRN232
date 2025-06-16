@@ -102,12 +102,15 @@ namespace HaHuuTrung_SE1821_A01_DataAccess.DAO
         public async Task<List<NewsArticle>> GetArticlesByDateRange(DateTime startDate, DateTime endDate)
         {
             return await _context.NewsArticles
-                .Where(n => n.CreatedDate >= startDate && n.CreatedDate <= endDate)
+                .Where(n => n.CreatedDate.HasValue &&
+                            n.CreatedDate.Value.Date >= startDate.Date &&
+                            n.CreatedDate.Value.Date <= endDate.Date)
                 .OrderByDescending(n => n.CreatedDate)
                 .Include(n => n.Category)
                 .Include(n => n.CreatedBy)
                 .ToListAsync();
         }
+
 
         public async Task<bool> HasArticlesByAccountId(short accountId)
         {
