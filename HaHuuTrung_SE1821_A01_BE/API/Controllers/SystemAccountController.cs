@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using BusinessObject.DTOs;
+using DataAccess;
 using HaHuuTrung_SE1821_A01_DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Interfaces;
@@ -24,7 +25,16 @@ namespace API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var accounts = await _systemAccountRepository.GetAllAsync();
-            return Ok(accounts);
+            var accountDTOs = accounts.Select(a => new SystemAccountDTO
+            {
+                AccountId = a.AccountId,
+                AccountName = a.AccountName,
+                AccountEmail = a.AccountEmail,
+                AccountRole = a.AccountRole,
+                AccountPassword = a.AccountPassword 
+            }).ToList();
+
+            return Ok(accountDTOs);
         }
 
         // GET: api/SystemAccount/5
@@ -35,27 +45,52 @@ namespace API.Controllers
             if (account == null)
                 return NotFound();
 
-            return Ok(account);
+            var dto = new SystemAccountDTO
+            {
+                AccountId = account.AccountId,
+                AccountName = account.AccountName,
+                AccountEmail = account.AccountEmail,
+                AccountRole = account.AccountRole,
+                AccountPassword = account.AccountPassword
+            };
+
+            return Ok(dto);
         }
 
-        // POST: api/SystemAccount
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] SystemAccount account)
+        public async Task<IActionResult> Create([FromBody] SystemAccountDTO dto)
         {
-            await _systemAccountRepository.AddAsync(account);
+           
+            var existing = await _systemAccountRepository.EmailExistsAsync(dto.AccountEmail);
+            if (existing == true)
+            {
+                return BadRequest("Email already exists.");
+            }
+
+            var newAccount = new SystemAccount
+            {
+                AccountName = dto.AccountName,
+                AccountEmail = dto.AccountEmail,
+                AccountRole = dto.AccountRole,
+                AccountPassword = dto.AccountPassword
+            };
+
+            await _systemAccountRepository.AddAsync(newAccount);
             return Ok("Account created successfully.");
         }
 
+
         // PUT: api/SystemAccount/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(short id, [FromBody] SystemAccount updated)
+        public async Task<IActionResult> Update(short id, [FromBody] SystemAccountDTO dto)
         {
             var existing = await _systemAccountRepository.GetByIdAsync(id);
             if (existing == null) return NotFound();
 
-            existing.AccountName = updated.AccountName;
-            existing.AccountEmail = updated.AccountEmail;
-            existing.AccountRole = updated.AccountRole;
+            existing.AccountName = dto.AccountName;
+            existing.AccountEmail = dto.AccountEmail;
+            existing.AccountRole = dto.AccountRole;
+            existing.AccountPassword = dto.AccountPassword; 
 
             await _systemAccountRepository.UpdateAsync(existing);
             return Ok("Account updated successfully.");
