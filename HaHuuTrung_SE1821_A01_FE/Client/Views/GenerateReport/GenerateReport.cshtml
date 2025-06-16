@@ -37,7 +37,6 @@
                         <tr>
                             <th>Title</th>
                             <th>Created Date</th>
-                            <th>Author</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -47,7 +46,6 @@
                             <tr>
                                 <td>@article.NewsTitle</td>
                                 <td>@(article.CreatedDate?.ToString("yyyy-MM-dd") ?? "")</td>
-                                <td>@article.CreatedByName</td>
                                 <td>@(article.NewsStatus == true ? "Active" : "Inactive")</td>
                             </tr>
                         }

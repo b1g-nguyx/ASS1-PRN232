@@ -25,7 +25,7 @@ namespace Client.Controllers
         public async Task<IActionResult> GenerateReport(DateTime startDate, DateTime endDate)
         {
             var client = _clientFactory.CreateClient();
-            var url = $"{_apiBase}/report?startDate={startDate:yyyy-MM-dd}&endDate={endDate:yyyy-MM-dd}";
+            var url = $"{_apiBase}/api/Newsarticle/report?startDate={startDate:yyyy-MM-dd}&endDate={endDate:yyyy-MM-dd}";
 
             var response = await client.GetAsync(url);
 
