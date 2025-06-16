@@ -1,0 +1,44 @@
+﻿@model Client.Models.DTOs.RegisterDTO
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post">
+    <div class="form-group">
+        <label asp-for="AccountEmail">Email</label>
+        <input asp-for="AccountEmail" class="form-control" />
+        <span asp-validation-for="AccountEmail" class="text-danger" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AccountPassword">Password</label>
+        <input asp-for="AccountPassword" class="form-control" type="password" />
+        <span asp-validation-for="AccountPassword" class="text-danger" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AccountName">Full Name</label>
+        <input asp-for="AccountName" class="form-control" />
+        <span asp-validation-for="AccountName" class="text-danger" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Role">Role (1 = Admin, 2 = Staff)</label>
+        <input asp-for="Role" class="form-control" type="number" />
+        <span asp-validation-for="Role" class="text-danger" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Register</button>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger mt-2">@ViewBag.Error</div>
+    }
+</form>
+
+<p>
+    Already have an account? <a asp-controller="Auth" asp-action="Login">Login here</a>
+</p>

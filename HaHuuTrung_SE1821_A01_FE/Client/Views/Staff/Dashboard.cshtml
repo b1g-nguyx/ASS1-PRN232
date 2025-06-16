@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Staff Dashboard";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 fw-bold text-center">Staff Dashboard</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <!-- Category Management -->
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Category Management</h5>
+                    <p class="card-text text-muted">Create, edit, delete categories for news articles.</p>
+                    <a href="/Category/Index" class="btn btn-primary mt-auto">Manage Categories</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Article Management -->
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">News Article Management</h5>
+                    <p class="card-text text-muted">Create, update, or remove news articles and assign tags.</p>
+                    <a href="/Newsarticle/Index" class="btn btn-success mt-auto">Manage News</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Management -->
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Profile</h5>
+                    <p class="card-text text-muted">Update your personal profile and account information.</p>
+                    <a href="/Profile" class="btn btn-warning mt-auto text-white">My Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- News History -->
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">My News History</h5>
+                    <p class="card-text text-muted">View all articles you’ve created and their statuses.</p>
+                    <a href="/Newsarticle/HistoryByStaff" class="btn btn-secondary mt-auto">View History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

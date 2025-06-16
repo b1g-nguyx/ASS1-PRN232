@@ -1,0 +1,142 @@
+﻿@using Client.Models.DTOs
+@model List<CategoryDTO>
+@{
+    ViewData["Title"] = "Category Management";
+    var parentCategories = ViewBag.Categories as List<CategoryDTO>;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<h2 class="mt-3">Category Management</h2>
+
+<button class="btn btn-success my-3" data-bs-toggle="modal" data-bs-target="#createModal">+ Create New Category</button>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:5%">ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Parent</th>
+            <th>Active</th>
+            <th style="width:25%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.CategoryId</td>
+                <td>@category.Name</td>
+                <td>@category.CategoryDesciption</td>
+                <td>@category.ParentCategoryId</td>
+                <td>@(category.IsActive == true ? "True" : "False")</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal_@category.CategoryId">Edit</button>
+                    <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                        <input type="hidden" name="id" value="@category.CategoryId" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+
+           <!-- Edit Modal -->
+<div class="modal fade" id="editModal_@category.CategoryId" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Edit" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="CategoryId" value="@category.CategoryId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" name="Name" value="@category.Name" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category Description</label>
+                        <input class="form-control" name="CategoryDesciption" value="@category.CategoryDesciption" required />
+                    </div>
+
+                    @* <div class="mb-3">
+                        <label class="form-label">Parent Category</label>
+                        <select class="form-select" name="ParentCategoryId">
+                            @foreach (var cat in parentCategories)
+                            {
+                                <option value="@cat.CategoryId" @(cat.CategoryId == category.ParentCategoryId ? "selected" : "")>
+                                    @cat.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Is Active</label>
+                        <select class="form-select" name="IsActive">
+                            <option value="true" @(category.IsActive == true ? "selected" : "")>True</option>
+                            <option value="false" @(category.IsActive == false ? "selected" : "")>False</option>
+                        </select>
+                    </div> *@
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        }
+    </tbody>
+</table>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" name="Name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category Description</label>
+                        <input class="form-control" name="CategoryDesciption" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Parent Category</label>
+                        <select class="form-select" name="ParentCategoryId">
+                            <option value="">-- None --</option>
+                            @foreach (var cat in parentCategories)
+                            {
+                                <option value="@cat.CategoryId">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Is Active</label>
+                        <select class="form-select" name="IsActive">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Create</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
