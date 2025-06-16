@@ -36,6 +36,20 @@ namespace HaHuuTrung_SE1821_A01_DataAccess.DAO
 
         public async Task AddAsync(NewsArticle article)
         {
+            var lastId = await _context.NewsArticles
+       .OrderByDescending(x => Convert.ToInt32(x.NewsArticleId))
+       .Select(x => x.NewsArticleId)
+       .FirstOrDefaultAsync();
+
+            int nextId = 1; 
+
+            if (!string.IsNullOrEmpty(lastId))
+            {
+                nextId = Convert.ToInt32(lastId) + 1;
+            }
+
+            article.NewsArticleId = nextId.ToString();
+
             await _context.NewsArticles.AddAsync(article);
             await _context.SaveChangesAsync();
         }
@@ -48,7 +62,13 @@ namespace HaHuuTrung_SE1821_A01_DataAccess.DAO
 
         public async Task DeleteAsync(NewsArticle article)
         {
+            var articles = await _context.NewsArticles
+      .Include(a => a.Tags) // nếu bạn có navigation property
+      .FirstOrDefaultAsync(a => a.NewsArticleId == article.NewsArticleId);
+            article.Tags.Clear();
+
             _context.NewsArticles.Remove(article);
+
             await _context.SaveChangesAsync();
         }
 

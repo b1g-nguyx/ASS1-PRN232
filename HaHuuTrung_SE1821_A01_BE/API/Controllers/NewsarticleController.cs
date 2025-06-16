@@ -124,7 +124,7 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateNewsArticleDTO dto)
+        public async Task<IActionResult> Create(CreateNewsArticleDTO dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

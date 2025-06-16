@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Client.Controllers
 {
@@ -27,6 +28,12 @@ namespace Client.Controllers
                 TempData["Error"] = "Failed to load accounts";
                 return View(new List<SystemAccountDTO>());
             }
+            if (TempData.TryGetValue("errorMessage", out var err))
+            {
+                TempData["Error"] = err; 
+            }
+
+
 
             var content = await response.Content.ReadAsStringAsync();
             var data = JsonConvert.DeserializeObject<List<SystemAccountDTO>>(content);
@@ -47,8 +54,9 @@ namespace Client.Controllers
                 return RedirectToAction("Index");
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            ModelState.AddModelError("", errorMessage); 
-            return View(dto);
+            ModelState.AddModelError("", errorMessage);
+            TempData["errorMessage"] = errorMessage;
+            return RedirectToAction("Index");
         }
 
 

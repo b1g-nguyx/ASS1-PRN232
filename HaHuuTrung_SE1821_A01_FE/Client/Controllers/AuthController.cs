@@ -37,7 +37,7 @@ namespace Client.Controllers
           
             HttpContext.Session.SetString("email", result.AccountEmail);
             HttpContext.Session.SetInt32("role", result.AccountRole);
-
+            HttpContext.Session.SetInt32("userId", result.AccountId);
             if (result.AccountRole == 1)
             {
                 return RedirectToAction("Dashboard", "Staff");

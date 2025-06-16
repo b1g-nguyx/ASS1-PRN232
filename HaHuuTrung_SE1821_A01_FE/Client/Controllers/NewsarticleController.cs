@@ -76,14 +76,25 @@ namespace Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(NewsArticleDTO dto)
+        public async Task<IActionResult> Create(CreateNewsArticleDTO dto)
         {
             if (!ModelState.IsValid)
                 return View(dto);
+            int? userId = HttpContext.Session.GetInt32("userId");
 
+            if (userId.HasValue)
+            {
+                dto.CreatedById = (short)userId.Value;
+            }
+            else
+            {
+              
+                ModelState.AddModelError("", "Create failed");
+                return View(dto);
+            }
             var client = _clientFactory.CreateClient();
-            var content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-
+            var json = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"{_apiBase}/api/Newsarticle", content);
             if (response.IsSuccessStatusCode)
             {

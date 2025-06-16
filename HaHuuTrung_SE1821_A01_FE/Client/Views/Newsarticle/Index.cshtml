@@ -82,6 +82,7 @@
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <form asp-action="Edit" method="post">
+                                <input type="hidden" name="Id" value="@item.NewsArticleId"/>
                                 <div class="modal-header">
                                     <h5 class="modal-title">Edit News Article</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -193,7 +194,7 @@
                         </div>
                         <div class="col-md-6 mb-2">
                             <label>News Source</label>
-                            <select name="NewsStatus" class="form-select">
+                            <select name="NewsSource" class="form-select">
                                 <option value="N/A">N/A</option>
                                 <option value="Internet">Internet</option>
                             </select>
@@ -224,7 +225,7 @@
                                 {
                                     <div class="col-md-3 mb-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="SelectedTagIds" value="@tag.TagId" id="tag_@tag.TagId" />
+                                            <input class="form-check-input" type="checkbox" name="TagIds" value="@tag.TagId" id="tag_@tag.TagId" />
                                             <label class="form-check-label" for="tag_@tag.TagId">@tag.TagName</label>
                                         </div>
                                     </div>
